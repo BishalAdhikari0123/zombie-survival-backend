@@ -406,8 +406,34 @@ model GameSession {
 
 ### Deployment Platforms
 
-- **Heroku:** Add PostgreSQL addon, set buildpack to Node.js
+#### Render (Recommended - Includes render.yaml)
+
+1. **Create PostgreSQL Database:**
+   - Go to Render Dashboard → New → PostgreSQL
+   - Copy the Internal Database URL
+
+2. **Create Web Service:**
+   - Go to Render Dashboard → New → Web Service
+   - Connect your GitHub repository
+   - Render will auto-detect the `render.yaml` configuration
+   - Or manually configure:
+     - **Build Command:** `pnpm install && pnpm run build`
+     - **Start Command:** `pnpm start`
+
+3. **Set Environment Variables:**
+   - `DATABASE_URL` - Your PostgreSQL Internal Database URL
+   - `JWT_SECRET` - Strong random secret (generate with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`)
+   - `NODE_ENV` - `production`
+   - `PORT` - `10000` (or leave empty, Render sets this automatically)
+
+4. **Deploy:**
+   - Click "Create Web Service"
+   - Render will automatically run migrations and start your app
+
+#### Other Platforms
+
 - **Railway:** Auto-detects Node.js, add PostgreSQL service
+- **Heroku:** Add PostgreSQL addon, set buildpack to Node.js
 - **DigitalOcean:** Use App Platform with PostgreSQL managed database
 - **AWS:** EC2 + RDS PostgreSQL or ECS with Fargate
 - **Vercel:** Configure with serverless functions (requires adapter)
