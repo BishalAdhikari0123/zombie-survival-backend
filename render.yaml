@@ -3,8 +3,8 @@ services:
     name: zombie-survival-backend
     runtime: node
     plan: free
-    buildCommand: pnpm install && pnpm run build
-    startCommand: pnpm start
+    buildCommand: pnpm install --frozen-lockfile && pnpm run build
+    startCommand: node dist/server.js
     envVars:
       - key: NODE_ENV
         value: production
@@ -14,6 +14,4 @@ services:
         sync: false
       - key: JWT_EXPIRES_IN
         value: 7d
-      - key: PORT
-        value: 10000
     autoDeploy: true
